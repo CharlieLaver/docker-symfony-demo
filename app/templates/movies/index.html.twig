@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+{% block body %}
+
+    <form action="{{ path('app_movies_search') }}" method="post">
+        <input type="text" name="title" placeholder="MOVIE TITLE..." />
+        <input type="submit" value="SEARCH" />
+    </form>
+
+    {% if search %}
+        <h1>YOUR SEARCH RESULTS!</h1>
+                <div class="link"><a href="{{ path('app_movies') }}">SEE MOVIES IN DATABASE!</a></div>
+    {% else %}
+        <h1>MOVIES IN DATABASE!</h1>
+        <div class="link"><a href="{{ path('app_movies_get') }}">SEE THE RAW DATA HERE (FROM THE GET ENDPOINT)!</a></div>
+    {% endif %}
+
+    {% if movies %}
+        <div class="movies-container">
+            {% for movie in movies %}
+                <div class="movie">
+                
+                    {% if movie.imdb_id is defined %}
+                        <div>IMDB ID: {{ movie.imdb_id }}</div>
+                    {% endif %}
+
+                    {% if movie.title is defined %}
+                        <div>TITLE: {{ movie.title }}</div>
+                    {% endif %}
+
+                    {% if movie.release_date is defined %}
+                        <div>RELEASE DATE: {{ movie.release_date }}</div>
+                    {% endif %}
+                    
+                    {% if movie.runtime is defined %}
+                        <div>RUNTIME: {{ movie.runtime }}</div>
+                    {% endif %}
+
+                    {% if movie.keywords is defined and movie.keywords is iterable %}
+                        <div>KEYWORDS:</div>
+                        <ul>
+                            {% for keyword in movie.keywords %}
+                                <li>{{ keyword }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if movie.image is defined %}
+                        <img src="{{ movie.image }}" width="300" />
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="error">There where no results for your search!</div>
+    {% endif %}
+
+{% endblock %}
