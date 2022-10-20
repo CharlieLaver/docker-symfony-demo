@@ -2,38 +2,32 @@
 
 namespace App\Service;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use GuzzleHttp\Client;
 use App\Entity\Movie;
 
 class ImdbService implements MoviesApiInterface
 {
-    private HttpClientInterface $client;
-    private $key;
-    private $host;
-    private $baseUrl;
+    
+    private Client $client;
 
-    public function __construct(HttpClientInterface $client, $key, $host, $baseUrl)
+    public function __construct()
     {
-        $this->client = $client;
-        $this->key = $key;
-        $this->host = $host;
-        $this->baseUrl = $baseUrl;
+        $this->client = new Client([
+            'base_uri' => $_ENV['IMDB_BASE_URL'],
+            'headers' => [
+                'X-RapidAPI-Key' => $_ENV['IMDB_API_KEY'],
+                'X-RapidAPI-Host' => $_ENV['IMDB_API_HOST'],
+            ],
+        ]);
     }
 
     public function getMovies(string $name): ?array
     {
         $movies = [];
-
-        $response = $this->client->request('GET', "{$this->baseUrl}/title/find?q={$name}", [
-            'headers' => [
-                'X-RapidAPI-Key' => $this->key,
-                'X-RapidAPI-Host'=> $this->host,
-            ],
-        ]);
-
-        $content = $response->getContent();
-        $content = $response->toArray();
-
+        
+        $response = $this->client->request("GET", "/title/find?q={$name}");
+        $content = json_decode($response->getBody()->getContents(), true);
+        
         if(isset($content['results'])) {
             foreach($content['results'] as $result) {
                 if(isset($result['titleType']) && $result['titleType'] == "movie") {

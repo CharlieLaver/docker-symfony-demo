@@ -23,11 +23,11 @@ class MovieRepository extends ServiceEntityRepository
 
     public function save(Movie $entity, string $id, bool $flush = false): void
     {
-		if(sizeof($this->findExisting($id))) {
-			$this->getEntityManager()->merge($entity);
-		} else {
-			$this->getEntityManager()->persist($entity);
-		}
+        if(sizeof($this->findExisting($id))) {
+            $this->getEntityManager()->merge($entity);
+        } else {
+            $this->getEntityManager()->persist($entity);
+        }
 
         if($flush) {
             $this->getEntityManager()->flush();
@@ -42,37 +42,37 @@ class MovieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-	
-	public function fetch($title)
-	{
-		return $this->createQueryBuilder('m')
-			->where('m.title = :title')
-			->setParameter('title', $title)
-			->getQuery()
+    
+    public function fetch($title)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.title = :title')
+            ->setParameter('title', $title)
+            ->getQuery()
             ->getArrayResult();
-	}
-	
-	public function fetchAll()
-	{
-		$movieRows = $this->createQueryBuilder('m')
-			->getQuery()
-			->getArrayResult();
+    }
+    
+    public function fetchAll()
+    {
+        $movieRows = $this->createQueryBuilder('m')
+            ->getQuery()
+            ->getArrayResult();
 
         foreach($movieRows as &$movie) {
             $this->decodeKeywords($movie);
         }
 
         return $movieRows;
-	}
-	
-	public function findExisting($id)
-	{
-		return $this->createQueryBuilder('m')
-			->where('m.imdb_id = :imdb_id')
-			->setParameter('imdb_id', $id)
-			->getQuery()
-			->getArrayResult();
-	}
+    }
+    
+    public function findExisting($id)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.imdb_id = :imdb_id')
+            ->setParameter('imdb_id', $id)
+            ->getQuery()
+            ->getArrayResult();
+    }
 
     private function decodeKeywords(&$movie)
     {

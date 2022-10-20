@@ -50,6 +50,7 @@ class MoviesController extends AbstractController
                 }
             }
         }
+
         return $this->render('movies/index.html.twig', [
             'movies' => $moviesData,
             'search' => true,
