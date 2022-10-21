@@ -25,9 +25,9 @@ docker exec -it php81-container bash
 ### Code Structure
 
 All code that is specific to the IMDB API is seperated out into its own service (app/src/Service/ImdbService) and implments from the MoviesApiinterface.
-The MoviesApiinterface is injected into the MoviesController, meaning that if the API had to be changed I wouldnt have to edit the controller I would just have to change the service injected from app/config/services/yaml to another service that implments the same interface).
+The MoviesApiinterface is injected into the MoviesController, meaning that if the API had to be changed I wouldnt have to edit the controller I would just have to change the service injected from app/config/services.yaml to another service that implments the same interface).
 
-### FUNCTIONALITY
+### Functionality
 
 The home page of the app displays all of the movies that are saved in the database and has a search bar at the top for adding new movies.
 When a user searches for a movie, the app first checks if a movie already exists in the database with the same title, if so it will return that instead of sending a new request to the API.
