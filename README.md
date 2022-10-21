@@ -33,8 +33,8 @@ The home page of the app displays all of the movies that are saved in the databa
 When a user searches for a movie, the app first checks if a movie already exists in the database with the same title, if so it will return that instead of sending a new request to the API.
 If the movie does not exists in the database then the API will be called.
 
-There is also a GET endpoint for retrieving all the saved movies in JSON.
-You can see the endpoint here: http://localhost:8080/get
+There is also a GET endpoint for retrieving all the saved movies.
+Once the app is running, you can access the endpoint here: http://localhost:8080/get
 
 ### Tests
 
