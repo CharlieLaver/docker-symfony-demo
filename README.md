@@ -1,4 +1,4 @@
-# ETN Demo Documentation
+# Docker Symfony Demo
 
 ### Get Started
 
